@@ -60,3 +60,14 @@ body {
 .btn:hover {
   background-color: #2980b9;
 }
+
+.login-button { 
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-family: inherit;
+  font-weight: bold;
+}
+   
+   

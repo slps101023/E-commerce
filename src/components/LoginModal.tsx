@@ -1,4 +1,5 @@
 import { useAuthStore } from '../store/authStore';
+import './LoginModal.css'; // 引入 CSS 檔案
 
 const LoginModal = () => {
   // 從大腦取出視窗狀態與動作
@@ -9,33 +10,24 @@ const LoginModal = () => {
 
   return (
     // 黑色的半透明背景 (Overlay)
-    <div style={{
-      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      display: 'flex', justifyContent: 'center', alignItems: 'center',
-      zIndex: 1000 // 確保它浮在所有東西最上面
-    }}>
+    <div className='modal-overlay'>
       {/* 白色的彈出小視窗 (Modal) */}
-      <div style={{
-        backgroundColor: 'white', padding: '30px', borderRadius: '12px',
-        width: '400px', maxWidth: '90%', position: 'relative',
-        boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
-      }}>
+      <div className='modal-content'>
         {/* 右上角的關閉按鈕 */}
         <button 
           onClick={closeLoginModal}
-          style={{ position: 'absolute', top: '15px', right: '15px', border: 'none', background: 'none', fontSize: '1.2rem', cursor: 'pointer' }}
+          className='modal-close-btn'
         >
           ❌
         </button>
 
-        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>會員登入 (模擬)</h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          <input type="text" placeholder="帳號 / 手機" style={{ padding: '10px', fontSize: '1rem' }} />
-          <input type="password" placeholder="密碼" style={{ padding: '10px', fontSize: '1rem' }} />
+        <h2 className='modal-title'>會員登入 (模擬)</h2>
+        <div className='modal-form'>
+          <input type="text" placeholder="帳號 / 手機" className="modal-input" />
+          <input type="password" placeholder="密碼" className="modal-input" />
           
           {/* 按下這個按鈕執行登入，大腦會把 isLoggedIn 變 true，同時把視窗關閉 */}
-          <button className="btn" onClick={login} style={{ backgroundColor: '#e91e63' }}>
+          <button className="modal-submit-btn" onClick={login}>
             登入
           </button>
         </div>

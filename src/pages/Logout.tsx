@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
+import './Logout.css';
 
 const Logout = () => {
     const logout = useAuthStore((state) => state.logout);
@@ -15,9 +16,9 @@ const Logout = () => {
     }, [logout, navigate]);
 
     return (
-        <div className="page-container" style={{ textAlign: 'center' }}>
+        <div className="page-container logout-page">
             <h2>👋 您已成功登出</h2>
-            <p style={{ margin: '15px 0', color: '#666' }}>感謝您的使用，期待您再次光臨！</p>
+            <p>感謝您的使用，期待您再次光臨！</p>
             <Link to="/">
                 <button className="btn">回首頁</button>
             </Link>

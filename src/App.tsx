@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 import Home from './pages/Home';
-import Login from './pages/Login';
 import Cart from './pages/Cart';
 import Logout from './pages/Logout';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginModal from './components/LoginModal';
+import './App.css'
 
 function App() {
 
@@ -21,7 +21,7 @@ function App() {
                 {isLoggedIn ? (
                     <Link to="/logout" className="nav-link">登出</Link>
                 ) : (
-                    <button className="nav-link" onClick={openLoginModal} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.1rem', fontFamily: 'inherit', fontWeight: 'bold' }}>
+                    <button className="nav-link login-button"  onClick={openLoginModal}>
                         登入
                     </button>
                 )}
@@ -29,7 +29,6 @@ function App() {
 
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
                 <Route
                     path="/cart"
                     element={
