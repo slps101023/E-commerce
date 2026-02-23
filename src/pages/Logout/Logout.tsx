@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '../../store/authStore';
 import './Logout.css';
 
 const Logout = () => {
@@ -11,8 +11,6 @@ const Logout = () => {
     useEffect(() => {
         logout(); // 改變全域狀態為 false
         
-        // (可選) 如果你想讓它停留 2 秒後自動跳回首頁，可以這樣寫：
-        setTimeout(() => navigate('/'), 2000);
     }, [logout, navigate]);
 
     return (
