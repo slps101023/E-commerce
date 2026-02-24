@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 
 // 定義 Props 的型別：保鑣需要保護的對象就是 children (子元件)
@@ -8,7 +7,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  // 1. 詢問大腦：他登入了沒？
+
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const openLoginModal = useAuthStore((state) => state.openLoginModal);
 
