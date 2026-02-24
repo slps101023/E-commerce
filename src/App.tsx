@@ -15,6 +15,7 @@ function App() {
     return (
         <BrowserRouter>
             <LoginModal />
+            {/* to do: 將navbar元件化 */}
             <nav className="navbar">
                 <Link to="/" className="nav-link">首頁</Link>
                 <Link to="/cart" className="nav-link">購物車</Link>
