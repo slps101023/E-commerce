@@ -1,0 +1,51 @@
+/* 基礎重置 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5; /* 淡淡的灰藍色背景 */
+  color: #333;
+}
+
+/* 頁面主要內容容器 */
+.page-container {
+  max-width: 800px;
+  margin: 40px auto; /* 讓畫面置中 */
+  padding: 30px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* 柔和的卡片陰影 */
+}
+
+/* 共用按鈕樣式 */
+.btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background 0.2s;
+  margin-top: 15px;
+}
+
+.btn:hover {
+  background-color: #2980b9;
+}
+
+.login-button { 
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-family: inherit;
+  font-weight: bold;
+}
+   
+   

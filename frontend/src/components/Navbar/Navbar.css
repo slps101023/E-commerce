@@ -1,0 +1,125 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px); /* 磨砂玻璃效果 */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  height: 64px;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.nav-logo {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1890ff;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 32px; /* 增加大項目（首頁、購物車、帳戶區）之間的距離 */
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #555;
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.nav-item:hover {
+  color: #1890ff;
+}
+
+.nav-divider {
+  width: 1px;
+  height: 14px;
+  background-color: #ddd;
+}
+
+/* 登入後的使用者區塊 */
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* 增加「我的帳戶」與「登出」之間的微間距 */
+  background: #f5f5f5; /* 輕微背景色區分用戶區 */
+  padding: 4px 16px;
+  border-radius: 20px;
+}
+
+/* 購物車氣泡 */
+.cart-link {
+  position: relative;
+  padding-right: 8px;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background-color: #ff4d4f;
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 18px;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(255, 77, 79, 0.3);
+}
+
+/* 登入按鈕美化 */
+.login-trigger-btn {
+  background: #1890ff;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.login-trigger-btn:hover {
+  background: #40a9ff;
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+}
+
+/* 登出按鈕樣式優化：移除 button 預設樣式使其像連結 */
+.logout-btn {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout-link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #888;
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.logout-link:hover {
+  color: #ff4d4f; /* 登出滑過變紅，提醒操作性質 */
+}

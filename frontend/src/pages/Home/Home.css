@@ -1,0 +1,7 @@
+.product-list-container {
+    display: flex;
+    flex-wrap: wrap;    /* 寬度不夠時自動換行 */
+    gap: 24px;          /* 卡片之間的間距 */
+    justify-content: center; /* 居中對齊 */
+    padding: 40px;
+}

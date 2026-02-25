@@ -1,0 +1,97 @@
+.product-card {
+    display: flex;
+    flex-direction: column; /* 讓圖片、文字、按鈕由上往下排 */
+    width: 280px;
+    height: 100%; /* 確保同排卡片高度一致 */
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* 懸停時往上飄並加強陰影 */
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* 圖片容器：確保圖片比例一致 (1:1) */
+.image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* Square Aspect Ratio */
+    overflow: hidden;
+    background-color: #f5f5f5;
+}
+
+.image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 重要：防止圖片變形 */
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.1); /* 懸停時圖片微放大 */
+}
+
+/* 類別標籤 */
+.category-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    color: #666;
+    font-weight: 500;
+    backdrop-filter: blur(4px);
+}
+
+/* 文字區域 */
+.product-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* 讓這一塊自動撐開，把按鈕推到底部 */
+}
+
+.product-name {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 標題太長自動顯示 ... */
+}
+
+.product-price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #e63946; /* 醒目的價格顏色 */
+    margin-bottom: 15px;
+}
+
+/* 按鈕美化 */
+.add-to-cart-btn {
+    margin-top: auto; /* 在 flex 容器中，這會把按鈕推向底部 */
+    padding: 12px;
+    background-color: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #444;
+}
+
+.add-to-cart-btn:active {
+    transform: scale(0.98);
+}
