@@ -13,9 +13,10 @@ body {
 
 /* 頁面主要內容容器 */
 .page-container {
-  max-width: 800px;
-  margin: 40px auto; /* 讓畫面置中 */
-  padding: 30px;
+  width: 95%;
+  max-width: 1600px;
+  margin: 0px auto; /* 讓畫面置中 */
+  padding: 40px 20px;
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* 柔和的卡片陰影 */
