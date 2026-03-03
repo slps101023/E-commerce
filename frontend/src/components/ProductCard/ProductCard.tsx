@@ -14,11 +14,11 @@ const ProductCard = (props) => {
     
     const handleAddClick = () => {
         const productToAdd = {
-            id: props.id,       // 👈 記得傳入唯一的 ID
-            name: props.name,
+            id: props.product_id,       // 👈 記得傳入唯一的 ID
+            name: props.product_name,
             price: props.price,
-            image: props.image,
-            quantity: 1         // 初始數量
+            image: props.image_url,
+            quantity: props.stock_quantity         // 初始數量
         };
         addItem(productToAdd);  // 👈 正確傳送商品資料給大腦
     };
