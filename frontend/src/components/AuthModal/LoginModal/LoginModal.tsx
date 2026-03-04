@@ -1,7 +1,11 @@
 import { useAuthStore } from "../../../store/authStore";
 import './LoginModal.css';
 
-const LoginModal = () => {
+interface LoginModalProps {
+  onSwitch: () => void;  // 切換到登入的函式
+}
+
+const LoginModal = ({ onSwitch }: LoginModalProps) => {
   const closeModal = useAuthStore((state) => state.closeModal);
   const login = useAuthStore((state) => state.login);
 
@@ -32,7 +36,10 @@ const LoginModal = () => {
         </button>
 
         <div className="modal-footer">
-          還沒有帳號？ <span className="signup-link">立即註冊</span>
+          還沒有帳號？ 
+          <span className="signup-link" onClick={onSwitch}>
+            立即註冊
+          </span>
         </div>
       </div>
     </div>

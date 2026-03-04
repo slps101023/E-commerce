@@ -1,7 +1,11 @@
 import { useAuthStore, } from '../../../store/authStore';
 import './RegisterModal.css';
 
-const RegisterModal = () => {
+interface RegisterModalProps {
+  onSwitch: () => void;  // 切換到登入的函式
+}
+
+const RegisterModal = ({ onSwitch }: RegisterModalProps) => {
   const closeModal = useAuthStore((state) => state.closeModal);
   const login = useAuthStore((state) => state.login);
 
@@ -46,13 +50,13 @@ const RegisterModal = () => {
           <input type="password" placeholder="請再次輸入密碼" className="modal-input" />
         </div>
 
-        <button className="modal-submit-btn">
+        <button className="modal-submit-btn" onClick={login}>
           立即註冊
         </button>
 
         <div className="modal-footer">
           已經有帳號了？
-          <span className="signup-link">
+          <span className="signup-link" onClick={onSwitch}>
             立即登入
           </span>
         </div>
