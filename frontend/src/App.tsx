@@ -4,14 +4,14 @@ import Cart from './pages/Cart/Cart';
 import Logout from './pages/Logout/Logout';
 import Profile from './pages/Profile/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
-import LoginModal from './components/LoginModal/LoginModal';
+import AuthModal from './components/AuthModal/AuthModal';
 import Navbar from './components/Navbar/Navbar';
 import './App.css'
 
 function App() {
     return (
         <BrowserRouter>
-            <LoginModal />
+            <AuthModal />
             <Navbar />
             <Routes>
                 <Route path="/" element={<Home />} />
@@ -27,7 +27,7 @@ function App() {
                 <Route path="/profile" element={
                     <ProtectedRoute>
                         <Profile />
-                    </ProtectedRoute>} 
+                    </ProtectedRoute>}
                 />
                 <Route path="/logout" element={<Logout />} />
             </Routes>

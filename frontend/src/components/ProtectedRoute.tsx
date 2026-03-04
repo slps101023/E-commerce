@@ -9,7 +9,7 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-  const openLoginModal = useAuthStore((state) => state.openLoginModal);
+  const openLoginModal = useAuthStore((state) => state.openModal);
 
   useEffect(() => {
     // 如果沒登入，就自動幫他打開登入小視窗

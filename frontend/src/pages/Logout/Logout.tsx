@@ -5,7 +5,7 @@ import './Logout.css';
 
 const Logout = () => {
     const logout = useAuthStore((state) => state.logout);
-    const openLoginModal = useAuthStore((state) => state.openLoginModal);
+    const openModal = useAuthStore((state) => state.openModal);
     const navigate = useNavigate();
 
     // 這裡我們利用 useEffect，讓這個頁面「一載入」就自動執行登出動作

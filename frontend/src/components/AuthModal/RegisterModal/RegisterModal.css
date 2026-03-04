@@ -1,0 +1,94 @@
+/* 遮罩層：加入模糊與漸變 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px); /* 磨砂玻璃背板 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* 視窗本體：卡片式設計 */
+.modal-content {
+  background: #ffffff;
+  width: 90%;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 16px;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transform: translateY(0);
+  animation: slideUp 0.3s ease-out;
+}
+
+/* 關閉按鈕：精簡化 */
+.modal-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.modal-close-btn:hover { color: #333; }
+
+/* 標題與標籤 */
+.modal-header { text-align: center; margin-bottom: 30px; }
+.modal-title { font-size: 24px; color: #222; margin-bottom: 8px; }
+.modal-subtitle { color: #888; font-size: 14px; }
+
+/* 輸入框優化 */
+.input-group { margin-bottom: 20px; text-align: left; }
+.input-group label { display: block; font-size: 14px; margin-bottom: 8px; color: #555; }
+
+.modal-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.modal-input:focus {
+  outline: none;
+  border-color: #1890ff;
+  box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.1);
+}
+
+/* 登入按鈕 */
+.modal-submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: #1890ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+.modal-submit-btn:hover { background: #40a9ff; }
+
+/* 額外連結 */
+.forgot-password, .signup-link {
+  font-size: 13px;
+  color: #1890ff;
+  cursor: pointer;
+  margin-top: 5px;
+}
+.modal-footer { margin-top: 25px; font-size: 14px; color: #666; text-align: center; }
+
+/* 動畫定義 */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }

@@ -5,7 +5,7 @@ import './Navbar.css';
 
 const Navbar = () => {
     const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-    const openLoginModal = useAuthStore((state) => state.openLoginModal);
+    const openModal = useAuthStore((state) => state.openModal);
     const { items } = useCartState();
 
     // 計算購物車商品總數
@@ -31,7 +31,7 @@ const Navbar = () => {
                             <Link to="/logout" className="nav-item logout-link">登出</Link>
                         </div>
                     ) : (
-                        <button className="login-trigger-btn" onClick={openLoginModal}>
+                        <button className="login-trigger-btn" onClick={openModal}>
                             登入 / 註冊
                         </button>
                     )}
