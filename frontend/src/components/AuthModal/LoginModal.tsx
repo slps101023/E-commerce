@@ -1,5 +1,4 @@
-import { useAuthStore } from "../../../store/authStore";
-import './LoginModal.css';
+import { useAuthStore } from "../../store/authStore";
 
 interface LoginModalProps {
   onSwitch: () => void;  // 切換到登入的函式
@@ -36,7 +35,7 @@ const LoginModal = ({ onSwitch }: LoginModalProps) => {
         </button>
 
         <div className="modal-footer">
-          還沒有帳號？ 
+          還沒有帳號？
           <span className="signup-link" onClick={onSwitch}>
             立即註冊
           </span>

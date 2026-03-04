@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "../../store/authStore";
-import LoginModal from "./LoginModal/LoginModal";
-import RegisterModal from "./RegisterModal/RegisterModal";
+import LoginModal from "./LoginModal";
+import RegisterModal from "./RegisterModal";
 import './AuthModal.css';
 
 const AuthModal = () => {

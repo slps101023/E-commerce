@@ -1,5 +1,4 @@
-import { useAuthStore, } from '../../../store/authStore';
-import './RegisterModal.css';
+import { useAuthStore, } from '../../store/authStore';
 
 interface RegisterModalProps {
   onSwitch: () => void;  // 切換到登入的函式
