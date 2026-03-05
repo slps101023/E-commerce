@@ -8,6 +8,8 @@ import AuthModal from './components/AuthModal/AuthModal';
 import Navbar from './components/Navbar/Navbar';
 import './App.css'
 
+
+// todo: 套用next.js的頁面結構,可以增加路徑的可讀性
 function App() {
     return (
         <BrowserRouter>

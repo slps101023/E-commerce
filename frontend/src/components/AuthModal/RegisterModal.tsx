@@ -2,6 +2,8 @@ import { useAuthStore, } from '../../store/authStore';
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import axios from 'axios';
+import { en } from 'zod/locales';
 
 // 註冊表單的驗證規則
 const registerSchema = z.object({
@@ -17,14 +19,6 @@ const registerSchema = z.object({
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
-// 註冊表單的輸入類型定義
-interface IFormInput {
-  username: string;
-  email: string;
-  phone: string;
-  password: string;
-  confirmPassword: string;
-}
 
 interface RegisterModalProps {
   onSwitch: () => void;  // 切換到登入的函式
@@ -45,9 +39,30 @@ const RegisterModal = ({ onSwitch }: RegisterModalProps) => {
   });
 
   // 3. 提交的資料類型也會自動對齊 schema
-  const onSubmit: SubmitHandler<RegisterFormValues> = (data) => {
-    console.log("驗證通過的資料：", data);
-  };
+  const onSubmit: SubmitHandler<RegisterFormValues> = async (data) => {
+  console.log("驗證通過的資料：", data);
+
+  try {
+    // 註冊成功後的操作
+    login(); 
+    // ✅ 直接傳送物件作為第二個參數
+    // 同時建議使用你封裝好的 api 實例，而不是原始的 axios
+    const response = await axios.post('http://localhost:3000/api/register', {
+      username: data.username,
+      email: data.email,
+      phone: data.phone,
+      password: data.password // 密碼在後端加密，這裡傳明文
+    });
+
+    console.log("後端回傳：", response.data);
+    
+    
+    // closeModal(); // 如果有 Modal 的話
+    
+  } catch (error) {
+    console.error("註冊請求失敗：", error);
+  }
+};
 
   return (
     <div className='modal-content' onClick={(e) => e.stopPropagation()}>
