@@ -13,7 +13,10 @@ const AuthModal = () => {
 
     return (
         /* 點擊遮罩處即可關閉 */
-        <div className='modal-overlay' onClick={closeModal}>
+        <div className='modal-overlay' onClick={() => {
+            closeModal();
+            setMode('login'); // 每次關閉都重置為登入模式
+        }}>
             {mode === 'login' ? (
                 <LoginModal onSwitch={() => setMode('register')} />
             ) : (

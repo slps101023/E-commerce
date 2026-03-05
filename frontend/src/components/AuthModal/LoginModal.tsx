@@ -17,7 +17,7 @@ const LoginModal = ({ onSwitch }: LoginModalProps) => {
         <h2 className='modal-title'>歡迎回來</h2>
         <p className='modal-subtitle'>請登入您的帳戶以繼續購物</p>
       </div>
-
+      {/* todo: 登入表單(hook form) */}
       <div className='modal-form'>
         <div className="input-group">
           <label>帳號 / 手機</label>
