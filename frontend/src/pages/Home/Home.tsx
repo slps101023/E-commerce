@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import ProductCard from '../../components/ProductCard/ProductCard';
+import ProductCard from '../../components/ProductCard/ProductCard'; 
+// import { Product } from '../../api/axios'; // 引入你封裝好的 axios 實例
 import './Home.css';
 import axios from 'axios';
-// import { Product } from '../../api/axios';
 
 const Home = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -35,10 +35,8 @@ const Home = () => {
 
   return (
     <div className="page-container">
-      {/* 假裝這是從後端抓來的商品 */}
       <div className="product-grid product-list-container">
         {products.map((product) => (
-          console.log(product),
           <Link to={`/product/${product.product_id}`} key={product.product_id} className="product-link">
             <ProductCard
               id={product.product_id}
