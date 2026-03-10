@@ -1,13 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
-import pg, {Pool} from 'pg';
+import pg, { Pool } from 'pg';
 import bcrypt from 'bcrypt';
 
 const app = express();
 const PORT = process.env.PORT;
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL, 
+    connectionString: process.env.DATABASE_URL,
 });
 
 app.use(cors());
@@ -27,6 +27,31 @@ app.get('/api/products', async (req, res) => {
     }
 });
 
+app.post('/api/login', async (req, res) => {
+    try {
+        const { account, password } = req.body;
+        const result = await pool.query(
+            'SELECT id, hash_password FROM users WHERE user_email = $1 OR user_phone = $1', 
+            [account]
+        );
+        const isMatch = await bcrypt.compare(password, result.rows[0].hash_password);
+        if (isMatch) {
+            // 登入成功
+            // 建議：實際開發通常會在這裡簽發 JWT Token
+            res.json({ 
+                user_id: result.rows[0].id, 
+                message: 'Login successful' 
+            });
+        } else {
+            // 密碼錯誤
+            res.status(401).json({ error: 'Invalid credentials' });
+        }
+    } catch (error) {
+        console.error('Login Error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 // api: 註冊寫入資料庫, 回傳user_id給前端, 前端再存到localStorage裡
 app.post('/api/register', async (req, res) => {
     try {
@@ -34,7 +59,7 @@ app.post('/api/register', async (req, res) => {
 
         const saltRounds = parseInt(process.env.SALT_ROUNDS);
         const hashedPassword = await bcrypt.hash(password, saltRounds);
-        
+
         const result = await pool.query(
             'INSERT INTO users (user_name, user_email, user_phone, hash_password) VALUES ($1, $2, $3, $4) RETURNING id',
             [username, email, phone, hashedPassword]
