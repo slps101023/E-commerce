@@ -33,8 +33,8 @@ const RegisterModal = ({ onSwitch }: RegisterModalProps) => {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<RegisterFormValues>({ // 1. 直接用 Zod 推導出來的型別
-    resolver: zodResolver(registerSchema), // 2. 這是最關鍵的一行！將驗證邏輯接進去
+  } = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
   });
 
   // 3. 提交的資料類型也會自動對齊 schema
