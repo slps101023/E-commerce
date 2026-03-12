@@ -4,7 +4,7 @@ import 'dotenv/config';
 import pg, { Pool } from 'pg';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-// import cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -12,13 +12,14 @@ const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
 });
 
-// app.use(cors({
-//     origin: process.env.FRONEND_URL,
-//     credentials: true,
-// }));
-app.use(cors());
+app.use(
+    cors({
+        origin: 'http://localhost:5173', // 允許來自前端的請求
+        credentials: true, // 允許攜帶 cookie
+    })
+);
 app.use(express.json());
-// app.use(cookieParser());
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
     res.send('🚀 Server (ES Module) is running!');
@@ -66,15 +67,24 @@ app.post('/api/login', async (req, res) => {
             const token = authenticateToken({ user_id: currentUser.id, username: currentUser.user_name });
 
             // 將 JWT Token 設置為 HttpOnly Cookie，並設定過期時間為 1 小時
-            // res.cookie('token', token, {
-            //     httpOnly: true,       
-            //     secure: false, // 在生產環境中應該設置為 true，確保 cookie 只能通過 HTTPS 傳輸        
-            //     sameSite: 'lax',      
-            //     maxAge: 60 * 60 * 1000 
-            // });
+            res.cookie('token', token, {
+                httpOnly: true,
+                secure: true, // 在生產環境中應該設置為 true，確保 cookie 只能通過 HTTPS 傳輸
+                sameSite: 'lax',
+                maxAge: 60 * 60 * 1000
+            });
+
+            // 將 user_id 寫入 cookie（非 HttpOnly，可讓前端讀取）
+            res.cookie('user_id', String(currentUser.id), {
+                httpOnly: false,
+                secure: false,
+                sameSite: 'lax',
+                maxAge: 60 * 60 * 1000
+            });
+
             return res.status(200).json({
-                 username: currentUser.user_name,
-                 message: 'Login successful'
+                username: currentUser.user_name,
+                message: 'Login successful'
             });
         } else {
             // 密碼錯誤
@@ -102,13 +112,21 @@ app.post('/api/register', async (req, res) => {
         const currentUser = result.rows[0];
         const token = authenticateToken({ user_id: currentUser.id, username: currentUser.user_name });
         
-        // 將 JWT Token 設置為 HttpOnly Cookie，並設定過期時間為 1 小時
-        // res.cookie('token', token, {
-        //     httpOnly: true,
-        //     secure: false, // 在生產環境中應該設置為 true，確保 cookie 只能通過 HTTPS 傳輸
-        //     sameSite: 'lax',
-        //     maxAge: 60 * 60 * 1000 // 1 小時
-        // });
+            // 將 JWT Token 設置為 HttpOnly Cookie，並設定過期時間為 1 小時
+            res.cookie('token', token, {
+                httpOnly: true,
+                secure: true, // 在生產環境中應該設置為 true，確保 cookie 只能通過 HTTPS 傳輸
+                sameSite: 'lax',
+                maxAge: 60 * 60 * 1000
+            });
+
+            // 將 user_id 寫入 cookie（非 HttpOnly，可讓前端讀取）
+            res.cookie('user_id', String(currentUser.id), {
+                httpOnly: false,
+                secure: false,
+                sameSite: 'lax',
+                maxAge: 60 * 60 * 1000
+            });
         return res.status(201).json({
             username: currentUser.user_name,
             message: 'User registered successfully'

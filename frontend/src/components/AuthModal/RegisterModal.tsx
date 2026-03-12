@@ -4,6 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import axios from 'axios';
 
+// 設定axios的預設配置，允許攜帶cookie
+axios.defaults.withCredentials = true;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
 // 註冊表單的驗證規則
 const registerSchema = z.object({
   username: z.string().min(2, "使用者名稱至少需要 2 個字元").max(100, "使用者名稱不能超過 100 個字元"),

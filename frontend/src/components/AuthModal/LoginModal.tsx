@@ -4,6 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import axios from 'axios';
 
+// 設定axios的預設配置，允許攜帶cookie
+axios.defaults.withCredentials = true;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
 // 登入表單的驗證規則
 const loginSchema = z.object({
   account: z.string().refine((val) => {
