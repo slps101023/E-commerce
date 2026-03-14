@@ -1,9 +1,10 @@
 {
   "pages": {},
   "app": {
-    "[project]/my-next-admin/src/app/page": [
-      "static/media/caa3a2e1cccd8315-s.p.853070df.woff2",
-      "static/media/797e433ab948586e-s.p.dbea232f.woff2"
+    "[project]/my-next-admin/app/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
+      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
     ]
   },
   "appUsingSizeAdjust": true,
