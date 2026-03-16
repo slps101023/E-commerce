@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  /* 背景色：奶油米色 */
+  /* 全站主背景：奶油米色，取代純白，營造復古感 */
   --color-retro-bg: #E2D9C8; 
-  
-  /* 文字與主標題：深藍黑 */
-  --color-retro-ink: #1A2F38;
-  
-  /* 次要資訊：帶灰調的藍 */
-  --color-retro-slate: #5A717A;
 
-  /* 圓角微調：圖中的圓角稍微大一點點 */
+  /* 主文字和激活態按鈕背景：墨黑色 */
+  --color-retro-ink: #1A2F38;
+
+  /* 次要文字（如檔案大小）：帶灰調的墨藍色 */
+  --color-retro-slate: #5A717A;
+  
+  /* 圓角：使用更專業的膠囊狀和圓角矩形 */
   --radius-retro: 1rem;
 }
