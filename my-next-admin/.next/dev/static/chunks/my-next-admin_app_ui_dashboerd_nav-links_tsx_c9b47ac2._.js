@@ -28,7 +28,7 @@ var _s = __turbopack_context__.k.signature();
 const links = [
     {
         name: 'Home',
-        href: '/'
+        href: '/dashboard/Product'
     },
     {
         name: 'Cart',
@@ -42,11 +42,11 @@ const links = [
 function NavLinks() {
     _s();
     const $ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$1$2e$6_$40$babel$2b$core$40$7$2e$2_64d5eeabc3e5d7da937e2327328eb8d4$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$compiler$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["c"])(5);
-    if ($[0] !== "57aa188585c7fec55d5f644850abea4ddcdb5267733f9c25e2554cfce90c8a2e") {
+    if ($[0] !== "1d2001a9aa197e40034a3781339b8c49174af91e4ea4c90d57007efe19e6b403") {
         for(let $i = 0; $i < 5; $i += 1){
             $[$i] = Symbol.for("react.memo_cache_sentinel");
         }
-        $[0] = "57aa188585c7fec55d5f644850abea4ddcdb5267733f9c25e2554cfce90c8a2e";
+        $[0] = "1d2001a9aa197e40034a3781339b8c49174af91e4ea4c90d57007efe19e6b403";
     }
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$1$2e$6_$40$babel$2b$core$40$7$2e$2_64d5eeabc3e5d7da937e2327328eb8d4$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
     let t0;

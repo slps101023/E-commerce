@@ -49,7 +49,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$cl
 const links = [
     {
         name: 'Home',
-        href: '/'
+        href: '/dashboard/Product'
     },
     {
         name: 'Cart',
