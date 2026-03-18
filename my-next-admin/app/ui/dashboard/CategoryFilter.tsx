@@ -9,32 +9,37 @@ export default function CategoryFilter() {
     const [active, setActive] = useState("全部商品");
 
     return (
-        <div className="mx-auto max-w-7xl px-6 py-8 md:px-10">
-            {/* 分類容器：在手機版會自動產生橫向捲軸，桌機版則整齊排列 */}
-            <div className="flex items-center gap-3 overflow-x-auto pb-4 no-scrollbar">
+        <div className="mx-auto max-w-7xl px-4 sm:px-10 py-8">
+            <div className="flex flex-col md:flex-row md:items-center gap-6 border-t border-b border-retro-ink/5 py-6">
+                <div className="relative flex-1 overflow-hidden">
+                    <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-retro-bg to-transparent z-10 pointer-events-none md:hidden" />
 
-                {/* 小標籤：增加雜誌排版感 */}
-                <span className="mr-4 whitespace-nowrap text-[10px] font-bold tracking-[0.2em] text-retro-slate/40 uppercase">
-                    Filter
-                </span>
-
-                {categories.map((item) => (
-                    <button
-                        key={item}
-                        onClick={() => setActive(item)}
-                        className={cn(
-                            // 基礎樣式：圓角、字體、過度動畫
-                            "whitespace-nowrap rounded-full px-6 py-2 text-xs font-bold transition-all duration-300",
-                            // 未選中：淡淡的邊框，墨黑字體
-                            "border border-retro-ink/10 text-retro-slate hover:border-retro-ink/40",
-                            // 已選中：墨黑底、奶油字、浮起陰影
-                            active === item &&
-                            "border-retro-ink bg-retro-ink text-retro-bg shadow-[0_8px_20px_rgba(26,47,56,0.15)] scale-105"
-                        )}
-                    >
-                        {item}
-                    </button>
-                ))}
+                    <div className="flex items-center gap-3 overflow-x-auto no-scrollbar scroll-smooth pb-1 px-1 py-4">
+                        {categories.map((item) => {
+                            const isActive = active === item;
+                            return (
+                                <button
+                                    key={item}
+                                    onClick={() => setActive(item)}
+                                    className={cn(
+                                        "group relative whitespace-nowrap rounded-full px-6 py-2.5 text-[11px] md:text-xs font-bold transition-all duration-500",
+                                        "border border-retro-ink/10 text-retro-slate hover:border-retro-ink/40",
+                                        isActive && [
+                                            "border-retro-ink bg-retro-ink text-retro-bg",
+                                            "shadow-[0_10px_25px_-5px_rgba(26,47,56,0.2)]",
+                                            "scale-105 -translate-y-0.5" // UI: 選中時微浮起
+                                        ]
+                                    )}
+                                >
+                                    <span className="relative z-10">{item}</span>
+                                    {isActive && (
+                                        <span className="absolute inset-0 rounded-full bg-white/10 animate-pulse" />
+                                    )}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
             </div>
         </div>
     );

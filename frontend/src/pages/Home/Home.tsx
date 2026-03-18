@@ -12,17 +12,7 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get('http://localhost:3000/api/products');
-        // 手動對應欄位名稱
-        const formattedData = response.data.map((item: any) => ({
-          product_id: item.productid,
-          product_name: item.productname,
-          category: item.category,
-          price: item.price,
-          stock_quantity: item.stockquantity,
-          image_url: item.imageurl
-        }));
-
-        setProducts(formattedData);
+        setProducts(response.data);
       } catch (error) {
         console.error("哎呀！商品搬運失敗:", error);
       }

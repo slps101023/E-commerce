@@ -10,8 +10,10 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import { useCartState } from "@/app/hooks/useCart";
 
 const ProductCard = (props) => {
+    const { addItem } = useCartState();
     const formattedPrice = new Intl.NumberFormat('zh-TW', {
         style: 'currency',
         currency: 'TWD',
@@ -20,15 +22,16 @@ const ProductCard = (props) => {
 
 
     // todo: 將點擊加入購物
-    // const handleAddClick = () => {
-    //     const productToAdd = {
-    //         id: props.id,             // 統一用 id
-    //         name: props.name,         // 統一用 name
-    //         price: props.price,
-    //         image: props.image,       // 統一用 image
-    //         quantity: props.quantity  // 統一用 quantity
-    //     };
-    // };
+    const handleAddClick = () => {
+        const productToAdd = {
+            id: props.id,             // 統一用 id
+            name: props.name,         // 統一用 name
+            price: props.price,
+            image: props.image,       // 統一用 image
+            quantity: props.quantity  // 統一用 quantity
+        };
+        addItem(productToAdd);
+    };
     return (
         <Card className="group w-full max-w-sm overflow-hidden border-none bg-white/40 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl rounded-[32px] p-0">
             <div className="relative aspect-[4/3] w-full overflow-hidden">
@@ -52,7 +55,7 @@ const ProductCard = (props) => {
                     </p>
                 </div>
 
-                <Button className="w-full h-12 bg-retro-ink text-retro-bg hover:bg-retro-ink/90 rounded-2xl font-bold transition-all active:scale-95 shadow-lg">
+                <Button onClick={handleAddClick} className="w-full h-12 bg-retro-ink text-retro-bg hover:bg-retro-ink/90 rounded-2xl font-bold transition-all active:scale-95 shadow-lg">
                     加入購物車
                 </Button>
             </div>
