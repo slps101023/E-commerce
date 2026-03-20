@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Navbar from '@/app/ui/dashboard/Navbar';
 import axios from 'axios';
-import ProductCard from '@/app/ui/dashboard/ProductCard';
-import CategoryFilter from '@/app/ui/dashboard/CategoryFilter';
+import ProductCard from '@/app/ui/dashboard/Product/ProductCard';
+import CategoryFilter from '@/app/ui/dashboard/Product/CategoryFilter';
 
 export default async function Gallery() {
 

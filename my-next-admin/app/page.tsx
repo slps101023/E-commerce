@@ -1,5 +1,5 @@
 import Navbar from "@/app/ui/dashboard/Navbar";
-import ProductCard from "@/app/ui/dashboard/ProductCard";
+import ProductCard from "@/app/ui/dashboard/Product/ProductCard";
 
 // 假設這是從資料庫獲取的資料
 const products = [
