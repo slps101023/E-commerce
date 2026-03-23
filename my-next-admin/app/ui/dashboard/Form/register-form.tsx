@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
+import axios from "axios";
 
 // 引入 UI 元件
 import { Button } from "@/components/ui/button";
@@ -47,15 +48,35 @@ export default function RegisterForm() {
     });
 
     // 3. 提交處理
-    function onSubmit(data: RegisterFormValues) {
-        toast("Registration Request Sent", {
-            description: (
-                <pre className="mt-2 w-[320px] overflow-x-auto rounded-md bg-zinc-950 p-4 text-zinc-50 border border-zinc-800">
-                    <code>{JSON.stringify(data, null, 2)}</code>
-                </pre>
-            ),
-            position: "bottom-right",
-        });
+    async function onSubmit(data: RegisterFormValues) {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/register`, {
+                username: data.username,
+                email: data.email,
+                password: data.password
+            });
+
+            if (response.status === 201) {
+                toast.success("Registration successful!");
+                router.push('/dashboard/Login');
+            }
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                const statusCode = error.response?.status;
+                const errorMessage = error.response?.data?.error;
+
+                if (statusCode === 404 || statusCode === 500) {
+                    // 這裡可以根據後端回傳的錯誤內容判斷是否引導去註冊
+                    toast.error("Account already exists. Redirecting to login...");
+                    router.push('/dashboard/Login');
+                } else {
+                    toast.error(errorMessage || "Something went wrong. Please try again.");
+                }
+                return;
+            }
+
+            toast.error("Something went wrong. Please try again.");
+        }
     }
 
     // 提取共同的 Input 樣式以利維護
