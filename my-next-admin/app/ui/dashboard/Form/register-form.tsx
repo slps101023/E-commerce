@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
-// 1. 定義註冊驗證 Schema
+// todo: 將這個 schema 移到一個獨立的文件，方便在登入表單中重用(/schemas/authSchema.ts)
 const registerSchema = z.object({
     username: z
         .string()
@@ -49,6 +49,7 @@ export default function RegisterForm() {
 
     // 3. 提交處理
     async function onSubmit(data: RegisterFormValues) {
+        // todo: 將呼叫API的邏輯抽離到一個獨立的服務文件，讓表單組件專注於 UI 和表單處理(services/authService.ts)
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/register`, {
                 username: data.username,
