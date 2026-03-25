@@ -135,6 +135,21 @@ app.get('/api/auth/me', async (req, res) => {
     }
 });
 
+app.post('/api/auth/logout', (req, res) => {
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax'
+    });
+    res.clearCookie('user_id', {
+        httpOnly: false,
+        secure: false,
+        sameSite: 'lax'
+    });
+    res.status(200).json({ message: 'Logged out successfully' });
+});
+
+
 app.listen(PORT, () => {
     console.log(`✅ Server is listening on http://localhost:${PORT}`);
 });

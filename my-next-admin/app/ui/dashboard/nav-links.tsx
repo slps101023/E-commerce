@@ -35,7 +35,7 @@ export default function NavLinks() {
             await checkSession();
             
             // 導向登入頁或首頁
-            router.push('/dashboard/Login');
+            router.push('/');
         } catch (error) {
             console.error("登出失敗", error);
         }
