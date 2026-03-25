@@ -104,7 +104,6 @@ app.post('/api/auth/register', async (req, res) => {
             [username, email, hashedPassword]
         );
         const currentUser = result.rows[0];
-        
         return res.status(201).json({
             username: currentUser.user_name,
             message: 'User registered successfully'
