@@ -1,103 +1,130 @@
-import Image from 'next/image';
+"use client";
+
+import { useEffect, useMemo, useState } from 'react';
+// 🌟 引入 framer-motion
+import { motion, AnimatePresence } from 'framer-motion'; 
 import Navbar from '@/app/ui/dashboard/Navbar';
-import axios from 'axios';
 import ProductCard from '@/app/ui/dashboard/Product/ProductCard';
-import CategoryFilter from '@/app/ui/dashboard/Product/CategoryFilter';
+import { fetchProducts } from '@/app/services/authService';
+import ProductHeader from '@/app/ui/dashboard/Product/product-header';
+import { categories } from '@/app/ui/dashboard/Product/CategoryFilter';
 
-export default async function Gallery() {
+type Category = typeof categories[number];
 
-    // 拿取商品資料
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+type Product = {
+    product_id: number;
+    product_name: string;
+    price: number;
+    image_url: string;
+    category: string;
+};
 
-    let products = [];
-    try {
-        const res = await fetch(`${baseUrl}/products`, { cache: 'no-store' });
-        if (res.ok) {
-            products = await res.json();
+// ==========================================
+// 🌟 1. 定義動畫的 Variants (變體)
+// ==========================================
+
+// 外層 Grid 容器的動畫設定：用來控制子元素的串聯
+const containerVariants = {
+    hidden: { opacity: 1 }, // 初始狀態
+    visible: {
+        opacity: 1,
+        transition: {
+            // 這裡就是魔法所在！
+            // 當子元素 (itemVariants) 顯示時，每張卡片交錯 0.1 秒登場
+            staggerChildren: 0.1 
         }
-    } catch (error) {
-        console.error("無法取得商品:", error);
-    }
+    },
+    // 當卡片消失時，不需要交錯，整批消失即可
+    exit: { opacity: 0, transition: { duration: 0.3 } }
+};
+
+// 單張卡片的動畫設定
+const itemVariants = {
+    // 剛登場時：在原本位置下方 20px，並且透明
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+        y: 0,       // 移回原位
+        opacity: 1, // 變為不透明
+        transition: {
+            type: "spring", // 使用彈簧效果，更自然
+            stiffness: 100,
+            damping: 15
+        }
+    },
+    // 被剔除時：在原位漸隱
+    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.2 } }
+};
+
+// ==========================================
+
+export default function Gallery() {
+    const [products, setProducts] = useState<Product[]>([]);
+    const [activeCategory, setActiveCategory] = useState<Category>('全部商品');
+
+    useEffect(() => {
+        const loadProducts = async () => {
+            const data = await fetchProducts();
+            setProducts(data);
+        };
+
+        loadProducts();
+    }, []);
+
+    const filteredProducts = useMemo(() => {
+        if (activeCategory === '全部商品') {
+            return products;
+        }
+
+        return products.filter((product) => product.category === activeCategory);
+    }, [products, activeCategory]);
 
 
     return (
         <main className="bg-retro-bg min-h-screen">
             <Navbar />
             <div className="mx-auto max-w-7xl px-6 py-12 md:px-10">
-                <header className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 py-12 space-y-16">
-                    {/* 第一層：品牌標誌與元數據 */}
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-retro-ink/10 pb-12 relative">
-                        <div className="space-y-6">
-                            <h2 className="text-retro-ink text-6xl md:text-8xl font-black tracking-tighter italic leading-[0.8] hover:skew-x-2 transition-transform duration-500 cursor-default">
-                                ARCHIVE
-                            </h2>
-                            <div className="flex items-center gap-3">
-                                <div className="h-1.5 w-1.5 bg-retro-ink rotate-45 animate-pulse" />
-                                <p className="text-retro-slate text-xs md:text-sm font-medium tracking-tight opacity-70">
-                                    Selected pieces for your daily archive.
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* 右側資訊塊：UX 資訊層級優化 */}
-                        <div className="flex gap-10 md:gap-16">
-                            <div className="space-y-2">
-                                <p className="text-retro-slate/30 text-[9px] tracking-[0.4em] uppercase font-black">Last Updated</p>
-                                <p className="text-retro-ink text-[11px] font-bold tracking-widest uppercase italic">2026 EDITION — VOL. 01</p>
-                            </div>
-                            <div className="space-y-2">
-                                <p className="text-retro-slate/30 text-[9px] tracking-[0.4em] uppercase font-black">System</p>
-                                <div className="flex items-center gap-2">
-                                    <span className="flex h-1.5 w-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
-                                    <p className="text-retro-ink text-[11px] font-bold uppercase tracking-widest">Live</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* 第二層：導航與過濾器 (UX: 滾動時可考慮做 Sticky) */}
-                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 py-2">
-                        <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-12 flex-1">
-                            {/* 標籤設計：UI 對齊感 */}
-                            <div className="flex items-center gap-4 shrink-0 group">
-                                <div className="h-[1px] w-12 bg-retro-ink/20 group-hover:w-16 transition-all duration-500" />
-                                <div className="flex flex-col">
-                                    <span className="text-[9px] font-black tracking-[0.4em] text-retro-slate/30 uppercase leading-none">Explore</span>
-                                    <span className="text-[11px] font-bold tracking-[0.1em] text-retro-ink uppercase mt-1">Collections</span>
-                                </div>
-                            </div>
-
-                            {/* CategoryFilter: UX 增加橫向漸層遮罩防止內容被硬切斷 */}
-                            <div className="relative flex-1 group">
-                                <CategoryFilter />
-                            </div>
-                        </div>
-
-                        {/* 右側 metadata：增加 UX 引導感 */}
-                        <div className="hidden lg:flex items-center gap-8 text-retro-slate/40">
-                            <div className="flex flex-col items-end">
-                                <span className="text-[9px] font-black tracking-[0.3em] uppercase">Page</span>
-                                <span className="text-[11px] font-bold text-retro-ink/60">01 / 01</span>
-                            </div>
-                            <div className="h-8 w-[1px] bg-retro-ink/10" />
-                            <div className="flex flex-col items-start max-w-[80px]">
-                                <span className="text-[8px] font-black tracking-[0.2em] uppercase leading-tight">Scroll to Discover</span>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-                <div className="grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {products.map((product) => (
-                        <ProductCard
-                            key={product.product_id}
-                            id={product.product_id}
-                            name={product.product_name}
-                            price={product.price}
-                            image={product.image_url}
-                            category={product.category}
-                        />
-                    ))}
-                </div>
+                <ProductHeader
+                    activeCategory={activeCategory}
+                    onCategoryChange={setActiveCategory}
+                />
+                
+                {/* 🌟 2. 修改外層 Grid 容器 */}
+                {/* 這裡必須加上 key={activeCategory}。這非常關鍵！
+                    每當分類改變，這會強迫整個 Grid 重新渲染，從而觸發完美的交錯登場動畫。 */}
+                <motion.div 
+                    key={activeCategory}
+                    layout // 依然保留 layout，讓外層容器高度平滑過渡
+                    className="grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                    // 🌟 套用容器的 variants
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                >
+                    
+                    <AnimatePresence>
+                        {filteredProducts.map((product) => (
+                            // 🌟 3. 修改單張卡片的包覆層
+                            <motion.div
+                                key={product.product_id}
+                                layout
+                                // 🌟 套用子元素的 variants (會自動繼承外層的 hidden/visible 狀態)
+                                variants={itemVariants}
+                                // 當卡片需要自動滑動補位時的動畫設定
+                                transition={{ layout: { duration: 0.3, type: "spring", stiffness: 100, damping: 20 } }}
+                            >
+                                <ProductCard
+                                    id={product.product_id}
+                                    name={product.product_name} 
+                                    price={product.price}
+                                    image={product.image_url}
+                                    category={product.category}
+                                />
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+                    
+                </motion.div>
             </div>
         </main>
     );

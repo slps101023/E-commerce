@@ -3,7 +3,7 @@ import { Toaster } from "sonner";
 // import { inter } from '@/app/ui/fonts';
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { Providers } from '@/app/Providers';
+import { Providers } from '@/app/components/Providers';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 

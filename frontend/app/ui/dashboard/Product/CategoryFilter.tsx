@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { cn } from "@/lib/utils"; // shadcn 內建的合併工具
+import { cn } from "@/lib/utils";
 
-const categories = ["全部商品", "3C 科技", "攝影生活", "文藝配件", "限量周邊"];
+export const categories = ["全部商品", "3C", "運動", "生活", "家具", "服飾"] as const;
 
-export default function CategoryFilter() {
-    const [active, setActive] = useState("全部商品");
+type Category = typeof categories[number];
+
+type CategoryFilterProps = {
+    active: Category;
+    onChange: (category: Category) => void;
+};
+
+export default function CategoryFilter({ active, onChange }: CategoryFilterProps) {
 
     return (
         <div className="mx-auto max-w-7xl px-4 sm:px-10 py-8">
@@ -20,7 +25,7 @@ export default function CategoryFilter() {
                             return (
                                 <button
                                     key={item}
-                                    onClick={() => setActive(item)}
+                                    onClick={() => onChange(item)}
                                     className={cn(
                                         "group relative whitespace-nowrap rounded-full px-6 py-2.5 text-[11px] md:text-xs font-bold transition-all duration-500",
                                         "border border-retro-ink/10 text-retro-slate hover:border-retro-ink/40",
