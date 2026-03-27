@@ -2,7 +2,6 @@
 
 import { useCartState } from '@/app/hooks/useCart';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Navbar from '@/app/ui/dashboard/Navbar';
 import EmptyCart from '@/app/ui/dashboard/Cart/empty-cart';
 import CartHeader from '@/app/ui/dashboard/Cart/cart-header';
@@ -16,24 +15,37 @@ import CartUnAuthenticated from '@/app/ui/dashboard/Cart/cart-unAuthenticated';
 export default function Cart() {
     const { items, updateQuantity, removeItem } = useCartState();
     const { isAuthenticated, isLoading } = useAuth();
-    const router = useRouter();
     // UX: 管理勾選狀態
-    const [selectedItems, setSelectedItems] = useState(items.map(i => i.id));
+    const [selectedItems, setSelectedItems] = useState<(string | number)[]>([]);
 
     // 計算總價
     const totalPrice = items
         .filter(item => selectedItems.includes(item.id))
         .reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-    const toggleSelect = (id) => {
+    const toggleSelect = (id: string | number) => {
         setSelectedItems(prev =>
             prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
         );
     };
 
+    const handleUpdateQuantity = (id: string | number, delta: number) => {
+        if (typeof id === 'number') {
+            updateQuantity(id, delta);
+        }
+    };
+
+    const handleRemoveItem = (id: string | number) => {
+        if (typeof id === 'number') {
+            removeItem(id);
+        }
+    };
+
     // 載入中的骨架屏
-    isLoading && <Loading />;
-    
+    if (isLoading) {
+        return <Loading />;
+    }
+
     // 元件化
     if (!isAuthenticated) {
         return <CartUnAuthenticated />;
@@ -55,8 +67,8 @@ export default function Cart() {
                             items={items}
                             selectedItems={selectedItems}
                             toggleSelect={toggleSelect}
-                            updateQuantity={updateQuantity}
-                            removeItem={removeItem}
+                            updateQuantity={handleUpdateQuantity}
+                            removeItem={handleRemoveItem}
                         />
                         {/* 右側：結算看板 (佔 4 欄) */}
                         <CartSummary

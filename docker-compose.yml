@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # ==========================================
+  # 1. 後端服務 (Node.js)
+  # ==========================================
+  backend:
+    container_name: my-node-backend
+    build: 
+      context: ./server       # 🔴 注意：請確認這是你後端資料夾的正確名稱/路徑
+    ports:
+      - "5000:5000"            
+    environment:
+      - NODE_ENV=production
+    env_file:             # 🔴 加入這行，讓 Docker 幫你把變數灌進去
+      - .env
+    restart: unless-stopped    # 如果掛掉會自動重啟
+
+  # ==========================================
+  # 2. 前端服務 (Next.js)
+  # ==========================================
+  frontend:
+    container_name: my-next-frontend
+    build: 
+      context: ./frontend      # 🔴 注意：請確認這是你前端資料夾的正確名稱/路徑
+    ports:
+      - "3000:3000"            # [本機大馬路 Port 3000] 接通 [前端公寓 Port 3000]
+    depends_on:
+      - backend                # 確保後端先啟動後，前端再啟動
+    restart: unless-stopped

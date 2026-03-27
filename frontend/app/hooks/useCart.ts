@@ -38,11 +38,11 @@ const useCartState = create<CartState>((set) => ({
         return { items: [...state.items, { ...product, quantity: 1 }] };
     }),
 
-    removeItem: (id) => set((state) => ({
+    removeItem: (id: string | number) => set((state) => ({
         items: state.items.filter((item) => item.id !== id),
     })),
 
-    updateQuantity: (id, delta) => set((state) => ({
+    updateQuantity: (id: string | number, delta: number) => set((state) => ({
         items: state.items.map((item) =>
             item.id === id
                 ? { ...item, quantity: Math.max(1, item.quantity + delta) }
@@ -51,7 +51,7 @@ const useCartState = create<CartState>((set) => ({
     })),
 
     clearCart: () => set({ items: [] }),
-})); 
+}));
 
 
 
