@@ -14,7 +14,7 @@ const pool = new Pool({
 
 app.use(
     cors({
-        origin: 'http://localhost:3001', // 允許來自前端的請求
+        origin: process.env.FRONTEND_URL, // 允許來自前端的請求
         credentials: true, // 允許攜帶 cookie
     })
 );

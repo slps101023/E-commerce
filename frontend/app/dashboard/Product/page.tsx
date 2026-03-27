@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 // 🌟 引入 framer-motion
-import { motion, AnimatePresence } from 'framer-motion'; 
+import { motion, AnimatePresence, type Variants } from 'framer-motion'; 
 import Navbar from '@/app/ui/dashboard/Navbar';
 import ProductCard from '@/app/ui/dashboard/Product/ProductCard';
 import { fetchProducts } from '@/app/services/authService';
@@ -24,7 +24,7 @@ type Product = {
 // ==========================================
 
 // 外層 Grid 容器的動畫設定：用來控制子元素的串聯
-const containerVariants = {
+const containerVariants: Variants = {
     hidden: { opacity: 1 }, // 初始狀態
     visible: {
         opacity: 1,
@@ -39,14 +39,14 @@ const containerVariants = {
 };
 
 // 單張卡片的動畫設定
-const itemVariants = {
+const itemVariants: Variants = {
     // 剛登場時：在原本位置下方 20px，並且透明
     hidden: { y: 20, opacity: 0 },
     visible: {
         y: 0,       // 移回原位
         opacity: 1, // 變為不透明
         transition: {
-            type: "spring", // 使用彈簧效果，更自然
+            type: 'spring', // 使用彈簧效果，更自然
             stiffness: 100,
             damping: 15
         }

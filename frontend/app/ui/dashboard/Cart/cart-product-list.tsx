@@ -14,8 +14,8 @@ type Props = {
     items: CartItem[];
     selectedItems: Array<number | string>;
     toggleSelect: (id: number | string) => void;
-    updateQuantity: (id: number | string, delta: number) => void;
-    removeItem: (id: number | string) => void;
+    updateQuantity: (id: string | number, delta: number) => void;
+    removeItem: (id: string | number) => void;
 };
 
 export default function CartProductList({

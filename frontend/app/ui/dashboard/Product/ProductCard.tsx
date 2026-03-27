@@ -2,17 +2,18 @@
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-    Card,
-    CardAction,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
+import { Card } from "@/components/ui/card"
 import { useCartState } from "@/app/hooks/useCart";
 
-const ProductCard = (props) => {
+type Props = {
+    id: number;
+    name: string;
+    price: number;
+    image: string;
+    category: string;
+}
+
+const ProductCard = (props: Props) => {
     const { addItem } = useCartState();
     const formattedPrice = new Intl.NumberFormat('zh-TW', {
         style: 'currency',
@@ -28,7 +29,7 @@ const ProductCard = (props) => {
             name: props.name,         // 統一用 name
             price: props.price,
             image: props.image,       // 統一用 image
-            quantity: props.quantity  // 統一用 quantity
+            quantity: 1
         };
         addItem(productToAdd);
     };

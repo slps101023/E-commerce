@@ -3,10 +3,10 @@ import ProductCard from "@/app/ui/dashboard/Product/ProductCard";
 
 // 假設這是從資料庫獲取的資料
 const products = [
-  { id: "1", product_name: "Vintage Camera", price: 2400, image_url: "https://picsum.photos/200/300?camera", category: "TECH" },
-  { id: "2", product_name: "Retro Car", price: 850000, image_url: "https://picsum.photos/200/300?car", category: "COLLECTION" },
-  { id: "3", product_name: "Street View", price: 1200, image_url: "https://picsum.photos/200/300?street", category: "PHOTO" },
-  { id: "4", product_name: "Morning Sun", price: 900, image_url: "https://picsum.photos/200/300?sun", category: "PHOTO" },
+  { id: 1, product_name: "Vintage Camera", price: 2400, image_url: "https://picsum.photos/200/300?camera", category: "TECH" },
+  { id: 2, product_name: "Retro Car", price: 850000, image_url: "https://picsum.photos/200/300?car", category: "COLLECTION" },
+  { id: 3, product_name: "Street View", price: 1200, image_url: "https://picsum.photos/200/300?street", category: "PHOTO" },
+  { id: 4, product_name: "Morning Sun", price: 900, image_url: "https://picsum.photos/200/300?sun", category: "PHOTO" },
 ];
 
 export default function HomePage() {
