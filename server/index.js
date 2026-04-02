@@ -65,7 +65,7 @@ app.post('/api/auth/login', async (req, res) => {
             // 將 JWT Token 設置為 HttpOnly Cookie，並設定過期時間為 1 小時
             res.cookie('token', token, {
                 httpOnly: true,
-                secure: true, 
+                secure: false, // http 環境下設為 false，https 環境下設為 true 
                 sameSite: 'lax',
                 maxAge: 60 * 60 * 1000
             });
@@ -116,6 +116,7 @@ app.post('/api/auth/register', async (req, res) => {
 
 app.get('/api/auth/me', async (req, res) => {
     const token = req.cookies.token; 
+    console.log(req.cookies);
     if (!token) {
         return res.status(401).json({ message: "您尚未登入或憑證已過期" });
     }
@@ -137,7 +138,7 @@ app.get('/api/auth/me', async (req, res) => {
 app.post('/api/auth/logout', (req, res) => {
     res.clearCookie('token', {
         httpOnly: true,
-        secure: true,
+        secure: false, // http 環境下設為 false，https 環境下設為 true
         sameSite: 'lax'
     });
     res.clearCookie('user_id', {

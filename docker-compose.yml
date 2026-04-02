@@ -22,9 +22,13 @@ services:
   frontend:
     container_name: my-next-frontend
     build: 
-      context: ./frontend      # 🔴 注意：請確認這是你前端資料夾的正確名稱/路徑
+      context: ./frontend  
+      args:
+        - NEXT_PUBLIC_API_BASE_URL=http://192.168.56.101:5000/api
+    environment:
+    - NEXT_PUBLIC_API_BASE_URL=http://192.168.56.101:5000/api    # 🔴 注意：請確認這是你前端資料夾的正確名稱/路徑
     ports:
       - "3000:3000"            # [本機大馬路 Port 3000] 接通 [前端公寓 Port 3000]
     depends_on:
-      - backend                # 確保後端先啟動後，前端再啟動
+      - backend               # 確保後端先啟動後，前端再啟動
     restart: unless-stopped

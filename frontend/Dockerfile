@@ -22,7 +22,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # 執行 Next.js 打包 (這時候會因為 output: 'standalone' 產生精簡版伺服器)
-ENV NEXT_TELEMETRY_DISABLED=1
+ARG NEXT_PUBLIC_API_BASE_URL
+ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
 RUN npm run build
 
 # ==========================================
