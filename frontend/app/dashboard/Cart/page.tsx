@@ -17,7 +17,6 @@ export default function Cart() {
     const { isAuthenticated, isLoading } = useAuth();
     // UX: 管理勾選狀態
     const [selectedItems, setSelectedItems] = useState<(string | number)[]>([]);
-
     // 計算總價
     const totalPrice = items
         .filter(item => selectedItems.includes(item.id))

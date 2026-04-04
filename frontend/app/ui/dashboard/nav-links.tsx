@@ -5,12 +5,14 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import axios from 'axios';
+import { useCartState } from '@/app/hooks/useCart'; // 如果你需要在這裡使用購物車狀態，可以引入它
 
 export default function NavLinks() {
     const pathname = usePathname();
     const router = useRouter();
     // 1. 從 useAuth 取得狀態與重新檢查的 function
     const { isAuthenticated, isLoading, checkSession } = useAuth();
+    const { items: cartItems } = useCartState(); // 如果你想在這裡顯示購物車數量，可以使用這個狀態
 
     // 2. 定義共用連結 (不管登入與否都看得到)
     const baseLinks = [
@@ -27,7 +29,7 @@ export default function NavLinks() {
     const handleLogout = async () => {
         try {
             // 呼叫後端的登出 API (用來清空 HttpOnly Cookie)
-            await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/logout`, {}, { 
+            await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/logout`, { cartItems }, { 
                 withCredentials: true 
             });
             

@@ -5,12 +5,24 @@ import pg, { Pool } from 'pg';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
+import mongoose from 'mongoose';
+import Cart from './modules/cart.js';
 
 const app = express();
 const PORT = process.env.PORT;
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
 });
+
+const mongoURI = process.env.MONGODB_URI;
+mongoose.connect(mongoURI)
+    .then(() => {
+        console.log('✅ MongoDB 連線成功！(ShopDB 準備就緒)');
+    })
+    .catch((err) => {
+        console.error('❌ MongoDB 連線失敗，請檢查資料庫是否有啟動：');
+        console.error(err);
+    });
 
 app.use(
     cors({
@@ -38,6 +50,34 @@ function authenticateToken(Payload) {
         { expiresIn: '1h' }
     );
     return token;
+}
+
+async function updateCart(userId, cartItems) {
+    try {
+        const existingCart = await Cart.findOne({ userId: String(userId) });
+        if (existingCart) {
+            existingCart.items = cartItems.map(item => ({
+                productId: String(item.id),
+                productName: item.name,
+                quantity: item.quantity,
+            }));
+            console.log('Updating existing cart for user:', userId, 'with items:', existingCart.items);
+            await existingCart.save();
+        } else {
+            const newCart = new Cart({
+                userId: String(userId),
+                items: cartItems.map(item => ({
+                    productId: String(item.id),
+                    productName: item.name,
+                    quantity: item.quantity,
+                }))
+            });
+            console.log('Creating new cart for user:', userId, 'with items:', newCart.items);
+            await newCart.save();
+        }
+    } catch (error) {
+        console.error('Error updating cart:', error);
+    }
 }
 
 app.get('/api/products', async (req, res) => {
@@ -115,8 +155,7 @@ app.post('/api/auth/register', async (req, res) => {
 });
 
 app.get('/api/auth/me', async (req, res) => {
-    const token = req.cookies.token; 
-    console.log(req.cookies);
+    const token = req.cookies.token;
     if (!token) {
         return res.status(401).json({ message: "您尚未登入或憑證已過期" });
     }
@@ -136,6 +175,13 @@ app.get('/api/auth/me', async (req, res) => {
 });
 
 app.post('/api/auth/logout', (req, res) => {
+    const cartItems = req.body.cartItems; // 從請求體中獲取購物車數據
+    const userId = req.cookies.user_id; // 從 cookie 中獲取 user_id
+    // 更新購物車數據到 MongoDB
+    if (userId) {
+        updateCart(userId, cartItems);
+    }
+
     res.clearCookie('token', {
         httpOnly: true,
         secure: false, // http 環境下設為 false，https 環境下設為 true
