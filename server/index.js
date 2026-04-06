@@ -60,6 +60,8 @@ async function updateCart(userId, cartItems) {
                 productId: String(item.id),
                 productName: item.name,
                 quantity: item.quantity,
+                price: item.price,
+                imageUrl: item.image,
             }));
             console.log('Updating existing cart for user:', userId, 'with items:', existingCart.items);
             await existingCart.save();
@@ -70,6 +72,8 @@ async function updateCart(userId, cartItems) {
                     productId: String(item.id),
                     productName: item.name,
                     quantity: item.quantity,
+                    price: item.price,
+                    imageUrl: item.image,
                 }))
             });
             console.log('Creating new cart for user:', userId, 'with items:', newCart.items);
@@ -89,6 +93,38 @@ app.get('/api/products', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch products' });
     }
 });
+
+app.get('/api/cartItems', async (req, res) => {
+    const userId = req.cookies.user_id;
+    if (!userId) {
+        return res.status(401).json({ message: "您尚未登入或憑證已過期" });
+    } else {
+        try {
+            const cart = await Cart.findOne({ userId: String(userId) });
+            res.json(cart?.items || []);
+        } catch (error) {
+            console.error('Error fetching cart items:', error);
+            res.status(500).json({ error: 'Failed to fetch cart items' });
+        }
+    }
+});
+
+app.post('/api/updateCart', async (req, res) => {
+    const userId = req.cookies.user_id;
+    const cartItems = req.body.cartItems;
+    if (!userId) {
+        return res.status(401).json({ message: "您尚未登入或憑證已過期" });
+    } else {
+        try {
+            await updateCart(userId, cartItems);
+            res.status(200).json({ message: 'Cart updated successfully' });
+        } catch (error) {
+            console.error('Error updating cart:', error);
+            res.status(500).json({ error: 'Failed to update cart' });
+        }
+    }
+});
+
 
 app.post('/api/auth/login', async (req, res) => {
     try {
@@ -175,13 +211,6 @@ app.get('/api/auth/me', async (req, res) => {
 });
 
 app.post('/api/auth/logout', (req, res) => {
-    const cartItems = req.body.cartItems; // 從請求體中獲取購物車數據
-    const userId = req.cookies.user_id; // 從 cookie 中獲取 user_id
-    // 更新購物車數據到 MongoDB
-    if (userId) {
-        updateCart(userId, cartItems);
-    }
-
     res.clearCookie('token', {
         httpOnly: true,
         secure: false, // http 環境下設為 false，https 環境下設為 true

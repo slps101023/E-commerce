@@ -21,6 +21,15 @@ const cartSchema = new mongoose.Schema({
             type: Number, 
             default: 1, 
             min: 1 // 數量最少是 1
+        },
+        price: {
+            type: Number,
+            required: true,
+            min: 0 // 價格不能為負數
+        },
+        imageUrl: {
+            type: String,
+            required: true
         }
     }]
 });

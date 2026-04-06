@@ -12,6 +12,7 @@ interface CartItem {
 // 定義購物車狀態和操作的類型
 interface CartState {
     items: CartItem[];
+    setItems: (newItems: CartItem[]) => void;
     addItem: (product: CartItem) => void;
     removeItem: (id: number) => void;
     updateQuantity: (id: number, delta: number) => void; // delta 是 +1 或 -1
@@ -21,7 +22,7 @@ interface CartState {
 // 使用 Zustand 創建購物車狀態管理
 const useCartState = create<CartState>((set) => ({
     items: [],
-
+    setItems: (newItems) => set({ items: newItems }),
     // 加入購物車（進階邏輯：重複加入時只增加數量）
     addItem: (product) => set((state) => {
         const existingItem = state.items.find((item) => item.id === product.id);
