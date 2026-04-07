@@ -10,7 +10,7 @@ const cartSchema = new mongoose.Schema({
     // 2. 記住購物車內容 (只存 ID 和數量)
     items: [{
         productId: { 
-            type: String, 
+            type: Number, 
             required: true 
         },
         productName: {
@@ -23,7 +23,7 @@ const cartSchema = new mongoose.Schema({
             min: 1 // 數量最少是 1
         },
         price: {
-            type: Number,
+            type: String,
             required: true,
             min: 0 // 價格不能為負數
         },

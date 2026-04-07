@@ -63,7 +63,6 @@ async function updateCart(userId, cartItems) {
                 price: item.price,
                 imageUrl: item.image,
             }));
-            console.log('Updating existing cart for user:', userId, 'with items:', existingCart.items);
             await existingCart.save();
         } else {
             const newCart = new Cart({
@@ -76,7 +75,6 @@ async function updateCart(userId, cartItems) {
                     imageUrl: item.image,
                 }))
             });
-            console.log('Creating new cart for user:', userId, 'with items:', newCart.items);
             await newCart.save();
         }
     } catch (error) {
@@ -211,6 +209,13 @@ app.get('/api/auth/me', async (req, res) => {
 });
 
 app.post('/api/auth/logout', (req, res) => {
+    const cartItems = req.body.cartItems; // 從請求體中獲取購物車數據
+    const userId = req.cookies.user_id; // 從 cookie 中獲取 user_id
+    // 更新購物車數據到 MongoDB
+    if (userId) {
+        updateCart(userId, cartItems);
+    }
+
     res.clearCookie('token', {
         httpOnly: true,
         secure: false, // http 環境下設為 false，https 環境下設為 true

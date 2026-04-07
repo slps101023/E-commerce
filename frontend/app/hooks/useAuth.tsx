@@ -25,6 +25,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const { items } = useCartState();
+    const isAuthenticated = !!user;
 
     // 驗證身分的核心邏輯
     const checkSession = async () => {
@@ -49,7 +51,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     const { setItems } = useCartState();
-
+    
+    // 每次刷新頁面或登入狀態改變時，從資料庫抓購物車資料
     const fetchCartFromDb = async () => {
         try {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/cartItems`, {
@@ -79,6 +82,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         checkSession();
     }, []);
+
+    // 每次購物車內容改變時，如果已經登入了，就同步到資料庫
+    useEffect(() => {
+            if (isAuthenticated) {
+                const syncCartToDb = async () => {
+                    try {
+                        await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/updateCart`, { cartItems:items }, {
+                            withCredentials: true
+                        });
+                    } catch (error) {
+                        console.error("同步購物車到資料庫失敗:", error);
+                    }
+                };
+                syncCartToDb();
+            }
+        }, [items, isAuthenticated]);
 
     return (
         <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, checkSession }}>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useCartState } from '@/app/hooks/useCart';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '@/app/ui/dashboard/Navbar';
 import EmptyCart from '@/app/ui/dashboard/Cart/empty-cart';
 import CartHeader from '@/app/ui/dashboard/Cart/cart-header';
@@ -10,6 +10,7 @@ import CartSummary from '@/app/ui/dashboard/Cart/cart-summry';
 import { useAuth } from '@/app/hooks/useAuth';
 import Loading from '@/app/ui/dashboard/loading';
 import CartUnAuthenticated from '@/app/ui/dashboard/Cart/cart-unAuthenticated';
+import axios from 'axios';
 
 
 export default function Cart() {

@@ -49,8 +49,7 @@ const useCartState = create<CartState>((set) => ({
                 ? { ...item, quantity: Math.max(1, item.quantity + delta) }
                 : item
         ),
-    })),
-
+    })),// 用於從資料庫同步購物車
     clearCart: () => set({ items: [] }),
 }));
 
